@@ -3,28 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trilha da Inclusão</title>
+  <title>Trilha da Inclusão — Como Jogar</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main>
-    <h1>Trilha da Inclusão</h1>
-    <p>Jogo baseado na trilha da maquete: são 10 bandeirinhas, desafios para pessoas surdas e caminhos com texturas para pessoas cegas.</p>
+    <header>
+      <p class="tag">GUIA DO JOGO DE TABULEIRO</p>
+      <h1>🌳 Trilha da Inclusão</h1>
+      <p class="subtitulo">Aprenda de forma simples como jogar a trilha acessível da sua maquete.</p>
+    </header>
 
-    <section class="menu" aria-label="Escolha do percurso">
-      <button id="surdoBtn">Percurso para pessoa surda</button>
-      <button id="cegoBtn">Percurso para pessoa cega</button>
+    <nav class="menu" aria-label="Seções do guia">
+      <button data-section="inicio">🏠 Como jogar</button>
+      <button data-section="surdo">🤟 Percurso para pessoa surda</button>
+      <button data-section="cego">🦯 Percurso para pessoa cega</button>
+      <button data-section="objetivo">🏆 Objetivo e recompensas</button>
+    </nav>
+
+    <section id="inicio" class="secao">
+      <h2>🎲 Como funciona?</h2>
+      <p>Este aplicativo é um <strong>guia</strong>. Ele não substitui o tabuleiro: ele explica as regras para que os participantes saibam o que fazer durante a partida.</p>
+
+      <div class="passos">
+        <article><span>1</span><h3>Escolha o percurso</h3><p>O jogador pode participar do percurso pensado para pessoas surdas ou do percurso pensado para pessoas cegas.</p></article>
+        <article><span>2</span><h3>Siga a trilha</h3><p>O participante percorre o caminho do tabuleiro e encontra os desafios espalhados pelo percurso.</p></article>
+        <article><span>3</span><h3>Conquiste as recompensas</h3><p>Ao longo da trilha existem três recompensas que devem ser conquistadas.</p></article>
+        <article><span>4</span><h3>Chegue ao final</h3><p>O objetivo é terminar o percurso com as três recompensas adquiridas.</p></article>
+      </div>
+
+      <button class="ouvir" data-speak="Bem-vindo à Trilha da Inclusão. Este aplicativo explica como jogar o jogo de tabuleiro. Existem onze bandeiras, três recompensas e dois tipos de desafios acessíveis.">🔊 Ouvir explicação</button>
     </section>
 
-    <section id="game" hidden>
-      <h2 id="modeTitle"></h2>
-      <p id="instruction" role="status" aria-live="polite"></p>
-      <div id="progress" aria-live="polite"></div>
-      <div id="challenge"></div>
-      <div id="controls"></div>
-      <button id="restart">Reiniciar percurso</button>
-      <button id="back">Voltar ao menu</button>
+    <section id="surdo" class="secao oculto">
+      <h2>🤟 Percurso para pessoa surda</h2>
+      <div class="destaque">🚩 São <strong>11 bandeirinhas vermelhas</strong> no percurso.</div>
+
+      <ol class="regras">
+        <li>O participante começa a trilha no ponto inicial.</li>
+        <li>Ao chegar a uma bandeirinha vermelha, deve pegar ou sortear uma carta.</li>
+        <li>A carta contém uma palavra.</li>
+        <li>O participante deve fazer, em <strong>Libras</strong>, o sinal correspondente à palavra.</li>
+        <li>Depois de realizar o desafio, ele pode continuar pela trilha até a próxima bandeira.</li>
+        <li>Esse processo continua até passar pelas 11 bandeiras.</li>
+      </ol>
+
+      <div class="exemplo">
+        <h3>🎴 Exemplo</h3>
+        <p>A carta sorteada diz <strong>“ÁRVORE”</strong>.</p>
+        <p>O participante faz o sinal de “árvore” em Libras e, depois, continua o percurso.</p>
+      </div>
+
+      <button class="ouvir" data-speak="No percurso para pessoa surda existem onze bandeirinhas. Em cada bandeirinha, o participante sorteia uma carta com uma palavra e faz o sinal correspondente em Libras. Depois, continua pela trilha até a próxima bandeira.">🔊 Ouvir regras</button>
     </section>
+
+    <section id="cego" class="secao oculto">
+      <h2>🦯 Percurso para pessoa cega</h2>
+      <div class="destaque">✋ A pista principal é a <strong>mudança de textura</strong> da trilha.</div>
+
+      <ol class="regras">
+        <li>O participante percorre a trilha usando o tato para perceber o caminho.</li>
+        <li>Em determinados pontos, a textura da trilha muda.</li>
+        <li>Cada mudança de textura funciona como uma pista.</li>
+        <li>O participante deve perceber as texturas e descobrir qual é o caminho correto.</li>
+        <li>Durante o percurso, ele encontra pontos onde pode conquistar as três recompensas.</li>
+        <li>Depois de conquistar as recompensas, continua até o final do percurso.</li>
+      </ol>
+
+      <div class="texturas" aria-label="Exemplos de texturas">
+        <div><b>▰</b><span>Liso</span></div>
+        <div><b>▒</b><span>Rugoso</span></div>
+        <div><b>≈</b><span>Ondulado</span></div>
+        <div><b>•••</b><span>Pontilhado</span></div>
+      </div>
+
+      <button class="ouvir" data-speak="No percurso para pessoa cega, o participante usa o tato para perceber as mudanças de textura. Essas mudanças servem como pistas para descobrir o caminho correto. Ao longo da trilha existem três recompensas.">🔊 Ouvir regras</button>
+    </section>
+
+    <section id="objetivo" class="secao oculto">
+      <h2>🏆 Objetivo do jogo</h2>
+
+      <div class="objetivo-box">
+        <div class="trofeus">🏆 🏆 🏆</div>
+        <p>O objetivo é <strong>chegar ao final da trilha com as três recompensas adquiridas</strong>.</p>
+      </div>
+
+      <h3>Resumo da partida</h3>
+      <ul class="resumo">
+        <li>🚩 <strong>11 bandeirinhas</strong> para os desafios com cartas e Libras.</li>
+        <li>🎴 Cartas com palavras para o participante sinalizar em Libras.</li>
+        <li>✋ Mudanças de textura para orientar o percurso de pessoas cegas.</li>
+        <li>🏆 <strong>3 recompensas</strong> espalhadas pela trilha.</li>
+        <li>🎯 Final: completar o percurso e conquistar as três recompensas.</li>
+      </ul>
+
+      <button class="ouvir" data-speak="O objetivo é chegar ao final da trilha com as três recompensas adquiridas. A atividade possui onze bandeirinhas, desafios com cartas e Libras, mudanças de textura e três recompensas.">🔊 Ouvir objetivo</button>
+    </section>
+
+    <footer>
+      <p>♿ Um jogo de tabuleiro pensado para promover inclusão e acessibilidade.</p>
+    </footer>
   </main>
 
   <script src="game.js"></script>
