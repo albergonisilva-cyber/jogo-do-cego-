@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caça ao Som - Jogo Auditivo</title>
+  <title>Trilha da Inclusão</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
   <main>
-    <h1>Caça ao Som</h1>
+    <h1>Trilha da Inclusão</h1>
+    <p>Jogo baseado na trilha da maquete: são 10 bandeirinhas, desafios para pessoas surdas e caminhos com texturas para pessoas cegas.</p>
 
-    <p>
-      Jogo auditivo acessível. Encontre o alvo usando apenas os sons.
-    </p>
+    <section class="menu" aria-label="Escolha do percurso">
+      <button id="surdoBtn">Percurso para pessoa surda</button>
+      <button id="cegoBtn">Percurso para pessoa cega</button>
+    </section>
 
-    <button id="start">Começar jogo</button>
-    <button id="repeat" disabled>Repetir instruções</button>
-
-    <p id="status" role="status" aria-live="polite">
-      Pressione "Começar jogo".
-    </p>
-
-    <p id="timer">Tempo: 60</p>
-
-    <div id="game" aria-hidden="true"></div>
+    <section id="game" hidden>
+      <h2 id="modeTitle"></h2>
+      <p id="instruction" role="status" aria-live="polite"></p>
+      <div id="progress" aria-live="polite"></div>
+      <div id="challenge"></div>
+      <div id="controls"></div>
+      <button id="restart">Reiniciar percurso</button>
+      <button id="back">Voltar ao menu</button>
+    </section>
   </main>
 
   <script src="game.js"></script>
