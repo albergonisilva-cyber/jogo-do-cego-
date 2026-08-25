@@ -5,41 +5,70 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: #101010;
-  color: #fff;
+  background: #eaf7ee;
+  color: #17301f;
   font-family: Arial, sans-serif;
 }
 
 main {
-  width: min(92%, 800px);
+  width: min(94%, 950px);
   margin: 0 auto;
   padding: 30px 15px 50px;
+}
+
+header {
   text-align: center;
+  padding: 25px 10px;
+}
+
+.tag {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #176b3a;
 }
 
 h1 {
-  font-size: clamp(32px, 7vw, 52px);
-  margin-bottom: 12px;
+  font-size: clamp(34px, 7vw, 58px);
+  margin: 10px 0;
 }
 
 h2 {
-  font-size: clamp(26px, 5vw, 38px);
+  font-size: clamp(27px, 5vw, 40px);
+  margin-top: 0;
 }
 
-p {
-  font-size: 20px;
-  line-height: 1.6;
+h3 {
+  font-size: 23px;
+}
+
+p,
+li {
+  font-size: 19px;
+  line-height: 1.65;
+}
+
+.subtitulo {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 21px;
+}
+
+.menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 800px;
+  margin: 20px auto 25px;
 }
 
 button {
-  min-width: 190px;
-  min-height: 58px;
-  margin: 8px;
+  min-height: 60px;
   padding: 14px 20px;
-  border: 3px solid #fff;
-  border-radius: 12px;
-  background: #222;
-  color: #fff;
+  border: 3px solid #176b3a;
+  border-radius: 14px;
+  background: #fff;
+  color: #17301f;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
@@ -47,92 +76,149 @@ button {
 
 button:hover,
 button:focus {
+  background: #176b3a;
+  color: #fff;
+  outline: 4px solid #f2c94c;
+}
+
+.secao {
   background: #fff;
-  color: #000;
-  outline: 4px solid #55aaff;
+  border: 3px solid #c7dfcf;
+  border-radius: 20px;
+  padding: 28px;
+  margin-top: 20px;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
 }
 
-.menu {
+.oculto {
+  display: none;
+}
+
+.passos {
   display: grid;
-  gap: 10px;
-  margin: 30px auto;
-  max-width: 560px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 25px 0;
 }
 
-#game {
-  margin-top: 25px;
-  padding: 24px;
-  border: 3px solid #fff;
-  border-radius: 18px;
+.passos article {
+  padding: 20px;
+  background: #f1faf4;
+  border-radius: 16px;
+  border: 2px solid #d4eadb;
 }
 
-#progress {
-  margin: 20px 0;
-  padding: 15px;
+.passos span {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #176b3a;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.destaque {
+  padding: 20px;
+  background: #fff4c7;
+  border-left: 7px solid #e0ad18;
   border-radius: 10px;
-  background: #242424;
-  font-size: 19px;
+  font-size: 21px;
 }
 
-.flag,
-.finish {
-  font-size: 70px;
+.regras {
+  padding-left: 28px;
 }
 
-.card {
-  width: min(90%, 400px);
-  margin: 20px auto;
-  padding: 35px 20px;
-  border: 4px solid #fff;
-  border-radius: 15px;
-  background: #f4f4f4;
-  color: #111;
+.regras li {
+  margin: 12px 0;
+}
+
+.exemplo,
+.objetivo-box {
+  margin: 25px 0;
+  padding: 20px;
+  border-radius: 16px;
+  background: #edf8ff;
+  border: 2px solid #bcdff0;
+}
+
+.texturas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 25px 0;
+}
+
+.texturas div {
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #f3f3f3;
+  border: 3px solid #aaa;
+}
+
+.texturas b {
   font-size: 38px;
-  font-weight: 900;
-  letter-spacing: 2px;
 }
 
-.texture {
-  width: min(90%, 430px);
-  min-height: 120px;
-  margin: 20px auto;
-  padding: 25px;
-  border: 4px solid #fff;
-  border-radius: 15px;
-  font-size: 48px;
-  letter-spacing: 8px;
-  background: #222;
-}
-
-#controls {
-  margin: 15px auto;
-}
-
-#restart,
-#back {
-  font-size: 16px;
-  min-width: 160px;
-}
-
-#instruction {
+.texturas span {
+  margin-top: 8px;
   font-weight: bold;
 }
 
-@media (max-width: 600px) {
+.trofeus {
+  font-size: 55px;
+  letter-spacing: 10px;
+  text-align: center;
+}
+
+.resumo {
+  padding-left: 28px;
+}
+
+.resumo li {
+  margin: 12px 0;
+}
+
+.ouvir {
+  background: #176b3a;
+  color: #fff;
+  border-color: #176b3a;
+}
+
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 15px;
+}
+
+footer p {
+  font-size: 16px;
+}
+
+@media (max-width: 650px) {
   main {
-    padding-top: 20px;
+    padding-top: 10px;
+  }
+
+  .menu,
+  .passos,
+  .texturas {
+    grid-template-columns: 1fr;
+  }
+
+  .secao {
+    padding: 20px 16px;
   }
 
   button {
     width: 100%;
-    margin: 6px 0;
-  }
-
-  #game {
-    padding: 15px;
-  }
-
-  .card {
-    font-size: 30px;
   }
 }
