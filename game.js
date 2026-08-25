@@ -1,201 +1,197 @@
-const startButton = document.getElementById("start");
-const repeatButton = document.getElementById("repeat");
-const statusText = document.getElementById("status");
-const timerText = document.getElementById("timer");
+const surdoBtn = document.getElementById("surdoBtn");
+const cegoBtn = document.getElementById("cegoBtn");
+const game = document.getElementById("game");
+const modeTitle = document.getElementById("modeTitle");
+const instruction = document.getElementById("instruction");
+const progress = document.getElementById("progress");
+const challenge = document.getElementById("challenge");
+const controls = document.getElementById("controls");
+const restart = document.getElementById("restart");
+const back = document.getElementById("back");
 
-let playerX = 5;
-let playerY = 5;
+const palavras = [
+  "ÁGUA", "ÁRVORE", "CASA", "ESCOLA", "FLOR",
+  "SOL", "LIVRO", "AMIGO", "BOLA", "ANIMAL"
+];
 
-let targetX;
-let targetY;
+const texturas = [
+  { nome: "lisa", simbolo: "━━━", descricao: "superfície lisa" },
+  { nome: "rugosa", simbolo: "▒▒▒", descricao: "superfície rugosa" },
+  { nome: "ondulada", simbolo: "≈≈≈", descricao: "superfície ondulada" },
+  { nome: "pontilhada", simbolo: "•••", descricao: "superfície com pontos" }
+];
 
-let timeLeft = 60;
-let timer;
-let playing = false;
+let modo = null;
+let bandeira = 0;
+let recompensas = 0;
+let posicao = 0;
+let caminho = [];
 
-let audioContext;
-
-// Fala usando o leitor de voz do navegador
 function falar(texto) {
+  if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-
   const voz = new SpeechSynthesisUtterance(texto);
   voz.lang = "pt-BR";
-  voz.rate = 1;
-
+  voz.rate = 0.95;
   window.speechSynthesis.speak(voz);
 }
 
-// Cria um som
-function som(frequencia = 440, duracao = 0.12, volume = 0.15) {
-  if (!audioContext) {
-    audioContext = new AudioContext();
-  }
-
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-
-  oscillator.frequency.value = frequencia;
-  oscillator.type = "sine";
-
-  gain.gain.value = volume;
-
-  oscillator.connect(gain);
-  gain.connect(audioContext.destination);
-
-  oscillator.start();
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.001,
-    audioContext.currentTime + duracao
-  );
-
-  oscillator.stop(audioContext.currentTime + duracao);
+function abrirModo(novoModo) {
+  modo = novoModo;
+  game.hidden = false;
+  surdoBtn.parentElement.hidden = true;
+  iniciar();
 }
 
-// Começa uma partida
-function iniciarJogo() {
-  playing = true;
+function iniciar() {
+  bandeira = 0;
+  recompensas = 0;
+  posicao = 0;
+  caminho = criarCaminho();
 
-  playerX = 5;
-  playerY = 5;
-
-  targetX = Math.floor(Math.random() * 10);
-  targetY = Math.floor(Math.random() * 10);
-
-  timeLeft = 60;
-
-  clearInterval(timer);
-
-  timer = setInterval(() => {
-    timeLeft--;
-
-    timerText.textContent = `Tempo: ${timeLeft}`;
-
-    if (timeLeft <= 0) {
-      finalizarJogo(false);
-    }
-  }, 1000);
-
-  startButton.disabled = true;
-  repeatButton.disabled = false;
-
-  falar(
-    "Jogo iniciado. Use as setas do teclado para encontrar o alvo. " +
-    "Quanto mais perto você estiver, mais rápido ficará o som."
-  );
-
-  atualizarSom();
+  if (modo === "surdo") iniciarSurdo();
+  else iniciarCego();
 }
 
-// Calcula a distância até o alvo
-function distancia() {
-  const dx = targetX - playerX;
-  const dy = targetY - playerY;
-
-  return Math.sqrt(dx * dx + dy * dy);
+function criarCaminho() {
+  // Dez pontos, com três recompensas espalhadas pelo percurso.
+  return [
+    texturas[0], texturas[0], texturas[1], texturas[1],
+    texturas[2], texturas[2], texturas[3], texturas[3],
+    texturas[1], texturas[0]
+  ];
 }
 
-// Atualiza o som de acordo com a distância
-function atualizarSom() {
-  if (!playing) return;
+function atualizarProgresso() {
+  progress.innerHTML = `<strong>Progresso:</strong> ${bandeira}/10 bandeirinhas &nbsp; | &nbsp; <strong>Recompensas:</strong> ${recompensas}/3`;
+}
 
-  const d = distancia();
+function iniciarSurdo() {
+  modeTitle.textContent = "Percurso para pessoa surda";
+  instruction.textContent = "Em cada uma das 10 bandeirinhas, sorteie uma carta, veja a palavra e faça o sinal em Libras. Depois, confirme para continuar.";
+  atualizarProgresso();
+  mostrarBandeira();
+}
 
-  if (d === 0) {
-    som(1000, 0.3, 0.3);
-    finalizarJogo(true);
+function mostrarBandeira() {
+  if (bandeira >= 10) {
+    finalizar();
     return;
   }
 
-  // Quanto menor a distância, maior a frequência
-  const frequencia = Math.max(200, 1000 - d * 70);
+  const palavra = palavras[bandeira];
+  challenge.innerHTML = `
+    <div class="flag">🚩</div>
+    <h3>Bandeirinha ${bandeira + 1}</h3>
+    <p>🎴 Carta sorteada:</p>
+    <div class="card" tabindex="0" aria-label="Palavra da carta: ${palavra}">${palavra}</div>
+    <p>Faça o sinal correspondente em Libras e pressione o botão abaixo.</p>
+    <button id="confirmSign">Já fiz o sinal ✓</button>
+  `;
 
-  som(frequencia, 0.12, 0.15);
+  controls.innerHTML = "";
+  document.getElementById("confirmSign").addEventListener("click", () => {
+    bandeira++;
+    atualizarProgresso();
+    mostrarBandeira();
+  });
 }
 
-// Movimento do jogador
-function mover(dx, dy) {
-  if (!playing) return;
-
-  playerX += dx;
-  playerY += dy;
-
-  // Mantém o jogador dentro do mapa
-  playerX = Math.max(0, Math.min(9, playerX));
-  playerY = Math.max(0, Math.min(9, playerY));
-
-  atualizarSom();
+function iniciarCego() {
+  modeTitle.textContent = "Percurso para pessoa cega";
+  instruction.textContent = "Use as setas ou os botões para seguir a trilha. Cada mudança de textura indica um novo trecho. Existem três recompensas ao longo do caminho.";
+  atualizarProgresso();
+  mostrarTextura();
+  falar("Percurso para pessoa cega iniciado. Use as setas para avançar e descubra a textura de cada trecho.");
 }
 
-// Finaliza o jogo
-function finalizarJogo(vitoria) {
-  playing = false;
-
-  clearInterval(timer);
-
-  startButton.disabled = false;
-
-  if (vitoria) {
-    statusText.textContent = "Você encontrou o alvo!";
-    falar("Parabéns! Você encontrou o alvo. Você venceu!");
-    som(1000, 0.3, 0.3);
-
-    setTimeout(() => som(1300, 0.3, 0.3), 250);
-  } else {
-    statusText.textContent = "O tempo acabou.";
-    falar("O tempo acabou. Tente novamente.");
+function mostrarTextura() {
+  if (posicao >= 10) {
+    finalizar();
+    return;
   }
+
+  const textura = caminho[posicao];
+  const mudou = posicao === 0 || caminho[posicao - 1].nome !== textura.nome;
+
+  challenge.innerHTML = `
+    <div class="texture" aria-label="Textura atual: ${textura.descricao}">${textura.simbolo}</div>
+    <h3>Trecho ${posicao + 1} de 10</h3>
+    <p>${mudou ? "Mudança de textura! " : ""}${textura.descricao}.</p>
+    <p>Escolha o caminho correto para avançar.</p>
+  `;
+
+  controls.innerHTML = `
+    <button class="move" data-dir="esquerda">← Esquerda</button>
+    <button class="move" data-dir="frente">↑ Frente</button>
+    <button class="move" data-dir="direita">→ Direita</button>
+  `;
+
+  document.querySelectorAll(".move").forEach(button => {
+    button.addEventListener("click", () => escolherCaminho(button.dataset.dir));
+  });
+
+  falar(`Trecho ${posicao + 1}. Textura ${textura.nome}. Escolha o caminho correto.`);
 }
 
-// Teclado
-document.addEventListener("keydown", (event) => {
-  if (!playing) return;
+function escolherCaminho(direcao) {
+  // A resposta correta varia a cada trecho, evitando decorar uma única sequência.
+  const correto = ["frente", "direita", "esquerda", "frente", "direita", "frente", "esquerda", "direita", "frente", "frente"][posicao];
 
-  switch (event.key) {
-    case "ArrowUp":
-      event.preventDefault();
-      mover(0, -1);
-      break;
-
-    case "ArrowDown":
-      event.preventDefault();
-      mover(0, 1);
-      break;
-
-    case "ArrowLeft":
-      event.preventDefault();
-      mover(-1, 0);
-      break;
-
-    case "ArrowRight":
-      event.preventDefault();
-      mover(1, 0);
-      break;
-
-    case " ":
-      event.preventDefault();
-
-      const d = Math.round(distancia());
-
-      falar(
-        `Você está a aproximadamente ${d} casas do alvo.`
-      );
-
-      break;
+  if (direcao !== correto) {
+    instruction.textContent = "Esse não é o caminho correto. Tente novamente, usando a textura como pista.";
+    falar("Caminho incorreto. Tente novamente.");
+    return;
   }
-});
 
-// Botão iniciar
-startButton.addEventListener("click", () => {
-  iniciarJogo();
-});
+  posicao++;
+  bandeira = posicao;
 
-// Repetir instruções
-repeatButton.addEventListener("click", () => {
-  falar(
-    "Use as setas para se movimentar. " +
-    "O som fica mais agudo quando você se aproxima do alvo. " +
-    "Pressione espaço para saber sua distância."
-  );
+  if ([3, 6, 9].includes(posicao)) {
+    recompensas++;
+    falar(`Parabéns! Você encontrou a recompensa ${recompensas} de 3.`);
+    instruction.textContent = `Você encontrou a recompensa ${recompensas} de 3! Continue pela trilha.`;
+  }
+
+  atualizarProgresso();
+  mostrarTextura();
+}
+
+function finalizar() {
+  challenge.innerHTML = `
+    <div class="finish">🏆</div>
+    <h3>Fim da trilha!</h3>
+    <p>Você chegou ao final com <strong>${recompensas}/3 recompensas</strong>.</p>
+    <p>${recompensas === 3 ? "Objetivo concluído! Você conquistou as três recompensas." : "Tente novamente para conquistar todas as três recompensas."}</p>
+  `;
+  controls.innerHTML = "";
+  instruction.textContent = "Percurso concluído.";
+  falar(recompensas === 3 ? "Parabéns! Você chegou ao final com as três recompensas." : "Percurso concluído. Você pode tentar novamente.");
+}
+
+function voltarMenu() {
+  window.speechSynthesis?.cancel();
+  modo = null;
+  game.hidden = true;
+  surdoBtn.parentElement.hidden = false;
+}
+
+surdoBtn.addEventListener("click", () => abrirModo("surdo"));
+cegoBtn.addEventListener("click", () => abrirModo("cego"));
+restart.addEventListener("click", iniciar);
+back.addEventListener("click", voltarMenu);
+
+document.addEventListener("keydown", event => {
+  if (modo !== "cego" || game.hidden || posicao >= 10) return;
+
+  const mapa = {
+    ArrowLeft: "esquerda",
+    ArrowUp: "frente",
+    ArrowRight: "direita"
+  };
+
+  if (mapa[event.key]) {
+    event.preventDefault();
+    escolherCaminho(mapa[event.key]);
+  }
 });
