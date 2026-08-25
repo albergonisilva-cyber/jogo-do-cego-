@@ -5,14 +5,14 @@ Projeto inspirado na maquete enviada: uma trilha acessível com desafios para pe
 ## Como funciona
 
 ### Percurso para pessoa surda
-- Existem **10 bandeirinhas vermelhas**.
+- Existem **11 bandeirinhas vermelhas**.
 - Em cada bandeirinha é sorteada uma carta.
 - A carta apresenta uma palavra.
 - O participante deve fazer o sinal correspondente em **Libras**.
 - Depois, confirma o desafio e avança para a próxima bandeirinha.
 
 ### Percurso para pessoa cega
-- A trilha possui **10 trechos**.
+- A trilha possui **11 pontos de desafio**.
 - Em determinados pontos ocorre uma mudança de textura.
 - A textura funciona como pista para o participante descobrir o caminho correto.
 - O percurso possui **3 recompensas** espalhadas pelo caminho.
