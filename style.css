@@ -6,23 +6,24 @@ body {
   margin: 0;
   min-height: 100vh;
   background: #101010;
-  color: white;
+  color: #fff;
   font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 main {
-  width: 90%;
-  max-width: 700px;
+  width: min(92%, 800px);
+  margin: 0 auto;
+  padding: 30px 15px 50px;
   text-align: center;
-  padding: 30px;
 }
 
 h1 {
-  font-size: 42px;
-  margin-bottom: 10px;
+  font-size: clamp(32px, 7vw, 52px);
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-size: clamp(26px, 5vw, 38px);
 }
 
 p {
@@ -31,37 +32,107 @@ p {
 }
 
 button {
-  font-size: 20px;
-  padding: 15px 25px;
-  margin: 10px;
-  border: 3px solid white;
-  border-radius: 10px;
+  min-width: 190px;
+  min-height: 58px;
+  margin: 8px;
+  padding: 14px 20px;
+  border: 3px solid #fff;
+  border-radius: 12px;
   background: #222;
-  color: white;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
 }
 
 button:hover,
 button:focus {
-  background: white;
-  color: black;
+  background: #fff;
+  color: #000;
   outline: 4px solid #55aaff;
 }
 
-#status {
-  margin-top: 30px;
-  font-weight: bold;
-}
-
-#timer {
-  font-size: 28px;
-  font-weight: bold;
+.menu {
+  display: grid;
+  gap: 10px;
+  margin: 30px auto;
+  max-width: 560px;
 }
 
 #game {
-  width: 300px;
-  height: 300px;
-  margin: 30px auto;
-  border: 4px solid white;
-  position: relative;
+  margin-top: 25px;
+  padding: 24px;
+  border: 3px solid #fff;
+  border-radius: 18px;
+}
+
+#progress {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 10px;
+  background: #242424;
+  font-size: 19px;
+}
+
+.flag,
+.finish {
+  font-size: 70px;
+}
+
+.card {
+  width: min(90%, 400px);
+  margin: 20px auto;
+  padding: 35px 20px;
+  border: 4px solid #fff;
+  border-radius: 15px;
+  background: #f4f4f4;
+  color: #111;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.texture {
+  width: min(90%, 430px);
+  min-height: 120px;
+  margin: 20px auto;
+  padding: 25px;
+  border: 4px solid #fff;
+  border-radius: 15px;
+  font-size: 48px;
+  letter-spacing: 8px;
+  background: #222;
+}
+
+#controls {
+  margin: 15px auto;
+}
+
+#restart,
+#back {
+  font-size: 16px;
+  min-width: 160px;
+}
+
+#instruction {
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  main {
+    padding-top: 20px;
+  }
+
+  button {
+    width: 100%;
+    margin: 6px 0;
+  }
+
+  #game {
+    padding: 15px;
+  }
+
+  .card {
+    font-size: 30px;
+  }
 }
